@@ -1,0 +1,31 @@
+/* ... */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+body > * {
+  display: none;
+}
+
+body.loaded bl-template {
+  display: block;
+}
+
+/* bl-menu */
+
+bl-menu {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+bl-menu > * {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}

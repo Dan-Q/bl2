@@ -3,10 +3,34 @@
 <head>
   <meta charset="utf-8">
   <title>Example Presentation 1</title>
+  <link rel="stylesheet" type="text/css" href="../bodlanes2.css">
   <script src="../bodlanes2.js"></script>
 </head>
 <body>
-  <h1>Example 1</h1>
-  <my-tag></my-tag>
+
+  <!-- define the template used for this presentation -->
+  <bl-template width="1920px" height="1080px">
+    <bl-grid rows="1fr 120px">
+      <bl-container id="main-area" showing="homepage"></bl-container>
+      <bl-container id="menu-area" showing="menu"></bl-container>
+    </bl-grid>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+    <div id="homepage">
+      Content
+    </div>
+
+    <div id="page2">
+      Second page
+    </div>
+
+    <bl-menu id="menu">
+      <a href="homepage" target="main-area">Home</a>
+      <a href="page2" target="main-area">Two</a>
+    </bl-menu>
+  </bl-content>
+
 </body>
 </html>
