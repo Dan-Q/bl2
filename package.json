@@ -1,7 +1,7 @@
 {
   "name": "bodlanes2",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Simplified experimental HTML5 digital signage/exhibition kiosk content framework.",
   "dependencies": {
     "slim-js": "^3.2.1"
   },
@@ -10,18 +10,22 @@
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "cpr": "^3.0.1",
+    "mkdirp": "^0.5.1",
+    "rmfr": "^1.0.7",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.9.7",
+    "webpack-merge": "^4.1.1"
   },
   "scripts": {
-    "build": "webpack",
-     "watch": "webpack --progress --watch",
-     "start": "webpack-dev-server"
+    "build": "webpack --config webpack.config.prd.js",
+    "start": "webpack-dev-server --config webpack.config.dev.js",
+    "compile": "node ./src/compiler.js"
   },
-  "author": "Dan Q",
+  "author": "Dan Q <dan.q@bodleian.ox.ac.uk> (https://danq.me/)",
   "license": "GPL-3.0-or-later",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Dan-Q/bl2.git"
+    "type": "git",
+    "url": "https://github.com/Dan-Q/bl2.git"
   }
 }

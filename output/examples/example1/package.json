@@ -1,0 +1,7 @@
+{
+    "name": "examples/example1",
+    "main": "examples/example1/index.html",
+    "window": {
+      "kiosk": true
+    }
+  }

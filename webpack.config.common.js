@@ -26,10 +26,5 @@ module.exports = {
         loader: "style!css!autoprefixer!less"
       },
     ]
-  },
-  devServer: {
-    contentBase: ["./", "./presentations/", "./examples/"],
-    watchContentBase: true,
-    host: '0.0.0.0'
   }
 };

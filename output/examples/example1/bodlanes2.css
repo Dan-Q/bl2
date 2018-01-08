@@ -1,0 +1,116 @@
+/* ... */
+
+* {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.5;
+  background: #ffffff;
+  color: #333333;
+}
+
+body > * {
+  display: none;
+}
+
+body.loaded bl-template {
+  display: block;
+}
+
+/* font size cascade */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin: 0 0 24px;
+}
+
+h1 {
+  font-size: 3.5em;
+}
+
+h2 {
+  font-size: 2.8em;
+}
+
+h3 {
+  font-size: 2.26em;
+}
+
+h4 {
+  font-size: 1.7em;
+}
+
+h5 {
+  font-size: 1.5em;
+}
+
+h5 {
+  font-size: 1.17em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+/* common classes */
+
+.border {
+  border: 4px solid #d8d8d8;
+}
+
+.button {
+  text-decoration: none;
+  display: inline-block;
+  border: 0;
+  color: #ffffff;
+  background: #002a5c;
+  padding: 15px 32px;
+}
+
+/* bl-overlay */
+
+bl-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: black;
+}
+
+/* bl-padded-block */
+
+bl-padded-block {
+  display: block;
+  padding: 2em;
+}
+
+/* bl-menu */
+
+bl-menu {
+  display: table;
+  height: 100%;
+  width: 100%;
+  background: #d8d8d8;
+}
+
+bl-menu > * {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+bl-menu a {
+  color: #4a494b;
+  text-decoration: none;
+}
+
+bl-menu a.current {
+  color: #ffffff;
+  background: #002a5c;
+}
