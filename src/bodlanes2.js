@@ -7,6 +7,12 @@ import {tag, template} from 'slim-js/Decorators'
 function requireAll(r) { r.keys().forEach(r); }
 requireAll(require.context('./components/', true, /\.js$/));
 
+// Set up the page
+function initialize(){
+  // Add <bl-overlay />
+  if(!document.querySelector('bl-overlay')) document.body.appendChild(document.createElement('bl-overlay'));
+}
+
 // Save/load/set current container content status (to the hash)
 function saveStatus(){
   const containers = [...document.querySelectorAll('bl-template .renderable')];
@@ -32,9 +38,31 @@ function navigate(id, target){
 // Tags links to the _current_ page so that they can be styled differently (e.g. in menus)
 function markLinksToCurrentPage(){
   const currentPages = [...document.querySelectorAll('bl-template .renderable')].map(container=>container.attributes.showing.value);
+  const currentPageIdentities = currentPages.map(id=>{
+    const block = document.querySelector(`bl-content #${id}`);
+    return(block.attributes.identifyas ? block.attributes.identifyas.value : id);
+  });
   const links = [...document.querySelectorAll('a')];
   links.forEach(a=>a.classList.remove('current'));
-  links.filter(a=>currentPages.includes(a.attributes.href.value)).forEach(a=>a.classList.add('current'));
+  links.filter(a=>currentPageIdentities.includes(a.attributes.href.value)).forEach(a=>a.classList.add('current'));
+}
+
+// Shows an image overlay
+function showOverlayImage(url){
+  const overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = `
+    <img src="${url}">
+    <bl-floater top="15px" right="15px">
+      <a href="#close-overlay" class="button">&times;</a>
+    </bl-floater>
+  `;
+  overlay.style.display = 'block';
+}
+
+// Hides the overlay
+function hideOverlay(){
+  const overlay = document.querySelector('bl-overlay');
+  overlay.style.display = 'none';
 }
 
 // Link handling
@@ -43,9 +71,12 @@ function documentClickHandler(e){
   if(!a) return false;
   e.preventDefault();
   if((a.tagName == 'A') && a.attributes.href){
-    if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
+    if(a.attributes.href.value == '#close-overlay'){
+      // close the overlay
+      hideOverlay();
+    } else if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
       // link to an image: pop up in an overlay
-      debugger;
+      showOverlayImage(a.attributes.href.value);
     } else if(a.attributes.target){
       // link including a target - probably an internal (content) link
       navigate(a.attributes.href.value, a.attributes.target.value);
@@ -57,9 +88,10 @@ document.addEventListener('click', documentClickHandler);
 
 // Mark page as loaded
 window.addEventListener('load', (e)=>{
+  initialize();
   loadStatus();
   document.body.classList.add('loaded');
   document.querySelectorAll('bl-template .renderable').forEach((e)=>e.render());
   saveStatus();
-  markLinksToCurrentPage()
+  markLinksToCurrentPage();
 });

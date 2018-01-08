@@ -68,14 +68,37 @@
       </bl-padded-block>
     </div>
 
-    <div id="page3">
+    <!-- the third page contains a button with a link to the fourth page, but the fourth page is identified in the menu as still being  'part of' the third -->
+    <bl-padded-block id="page3">
       <h1>
         Third Page
       </h1>
       <p>
-        Don't know what to write here!
+        This page has a button on it:
       </p>
-    </div>
+      <p>
+        <a href="page4" target="main-area" class="button">See page 4</a>
+      </p>
+    </bl-padded-block>
+
+    <bl-padded-block id="page4" identifyas="page3">
+      <h1>
+        Fourth Page
+      </h1>
+      <p>
+        This page 'identifies as' the third page, so the menu still shows that we're on the third page. This is
+        useful for pages that are clear 'children' of others, such as in galleries with additional information
+        about each item.
+      </p>
+      <p>
+        There's also a <code>&lt;bl-floater&gt;</code> on this page: a block type that can be positioned anywhere
+        you like: in this case, it's being used to put the "back" button in the top right corner. Give it a click!
+      </p>
+      <!-- A <bl-floater> is positioned absolutely, wherever you like on the page. It can also have a fixed size (width/height), if you like. -->
+      <bl-floater top="25px" right="25px">
+        <a href="page3" target="main-area" class="button">&laquo; Back</a>
+      </bl-floater>
+    </bl-padded-block>
 
     <bl-menu id="menu">
       <a href="homepage" target="main-area">Home</a>
