@@ -16,8 +16,9 @@ function saveStatus(){
 function loadStatus(){
   const status = window.location.hash.replace(/^#/, '').split('&').map((i)=>i.split('=',2));
   status.forEach((statusLine)=>{
-    //debugger;
-    document.querySelector(`bl-template bl-container#${statusLine[0]}`).attributes.showing.value = statusLine[1];
+    if((statusLine[0] || '') != ''){
+      document.querySelector(`bl-template bl-container#${statusLine[0]}`).attributes.showing.value = statusLine[1];
+    }
   });
 }
 function navigate(id, target){
@@ -25,14 +26,30 @@ function navigate(id, target){
   if(!container) return;
   container.loadContent(id);
   saveStatus();
+  markLinksToCurrentPage();
+}
+
+// Tags links to the _current_ page so that they can be styled differently (e.g. in menus)
+function markLinksToCurrentPage(){
+  const currentPages = [...document.querySelectorAll('bl-template .renderable')].map(container=>container.attributes.showing.value);
+  const links = [...document.querySelectorAll('a')];
+  links.forEach(a=>a.classList.remove('current'));
+  links.filter(a=>currentPages.includes(a.attributes.href.value)).forEach(a=>a.classList.add('current'));
 }
 
 // Link handling
 function documentClickHandler(e){
-  const el = e.target;
-  if((el.tagName == 'A') && el.attributes.href && el.attributes.target){
-    e.preventDefault();
-    navigate(el.attributes.href.value, el.attributes.target.value);
+  const a = e.path.find(el=>el.tagName=='A');
+  if(!a) return false;
+  e.preventDefault();
+  if((a.tagName == 'A') && a.attributes.href){
+    if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
+      // link to an image: pop up in an overlay
+      debugger;
+    } else if(a.attributes.target){
+      // link including a target - probably an internal (content) link
+      navigate(a.attributes.href.value, a.attributes.target.value);
+    }
   }
 }
 document.addEventListener('touchend', documentClickHandler);
@@ -44,4 +61,5 @@ window.addEventListener('load', (e)=>{
   document.body.classList.add('loaded');
   document.querySelectorAll('bl-template .renderable').forEach((e)=>e.render());
   saveStatus();
+  markLinksToCurrentPage()
 });

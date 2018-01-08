@@ -8,6 +8,7 @@ Slim.tag(
       this.style.width = '100%';
       this.style.gridTemplateRows = (this.attributes.rows && this.attributes.rows.value) || '1fr';
       this.style.gridTemplateColumns = (this.attributes.columns && this.attributes.columns.value) || '1fr';
+      this.style.gridGap = (this.attributes.gap && this.attributes.gap.value) || '0';
     }
 
     render(){

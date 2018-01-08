@@ -29,6 +29,7 @@ module.exports = {
   },
   devServer: {
     contentBase: ["./", "./presentations/", "./examples/"],
-    watchContentBase: true
+    watchContentBase: true,
+    host: '0.0.0.0'
   }
 };
