@@ -23,3 +23,8 @@ bl-menu a {
   background: #ffffff;
 }
 
+/* There are lots of code samples in this presentation; let's make them stand out */
+code {
+  color: #7b0808;
+  font-weight: bold;
+}

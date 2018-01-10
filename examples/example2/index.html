@@ -87,11 +87,135 @@
         should contain an <code>index.html</code> file: this is a standard HTML5 file (although you'll
         probably want to add a few special elements that you might not yet be familiar with).
       </p>
+      <bl-grid columns="539px 1fr" gap="50px">
+        <img src="security-questions.gif">
+        <div>
+          <p>
+            Some common special elements are:
+          </p>
+          <dl>
+            <dt>
+              <code>&lt;bl-template&gt;</code>
+            </dt>
+            <dd>
+              Wraps your template - the 'layout' of your presentation.
+            </dd>
+
+            <dt>
+              <code>&lt;bl-container&gt;</code>
+            </dt>
+            <dd>
+              Defines areas of a template into which content can be loaded.
+            </dd>
+
+            <dt>
+              <code>&lt;bl-content&gt;</code>
+            </dt>
+            <dd>
+              A container for content blocks to load into the template. Content blocks
+              themselves are regular HTML elements with an <code>id</code> attribute.
+            </dd>
+
+            <dt>
+              <code>&lt;bl-grid&gt;</code>
+            </dt>
+            <dd>
+              An abstraction of CSS grids suitable for easy creation.
+            </dd>
+
+            <dt>
+              <code>&lt;bl-menu&gt;</code>
+            </dt>
+            <dd>
+              A mechanism for organising links into a horizontal or vertical list.
+            </dd>
+          </dl>
+        </div>
+      </bl-grid>
+    </bl-padded-block>
+
+    <bl-padded-block id="edit-tools">
+      <h1>Tools &amp; Workflow</h1>
+      <p>
+        Optionally run a webserver with: <code>npm start</code>. You can then view your presentation by pointing
+        your web browser at e.g. http://localhost:8080/presentations/my-presentation. Using a webserver means
+        that you can also allow others on your network to see your presentations (simply replace 'localhost' with
+        the IP address of your computer) and use advanced features like Google Analytics.
+      </p>
+      <p>
+        Alternatively, simply open the file (e.g. <code>presentations/my-presentation/index.html</code>) directly
+        in your web browser. Either way, Google Chrome is probably the best bet for a consistent look-and-feel,
+        and is technically similar to many of the recommended deployment solutions. Chrome also provides screen
+        size simulation via the Device Toolbar, which can help to accurately simulate how a presentation will appear
+        on your real signage.
+      </p>
+      <p>
+        Edit the file in your favourite text editor e.g. Sublime Text or directly in Chrome itself (debugger &gt;
+        Sources &gt; Filesystem, add your presentation folder to the project: changes can now be made from within
+        the browser itself). Refresh periodically to see your changes: under normal circumstances, you'll carry on
+        seeing the content blocks where you left off.
+      </p>
+      <p>
+        Store any additional files (custom CSS, images, etc.) in your <code>presentation</code> folder, or put it into the
+        <code>extensions</code> folder if it'll be useful across multiple presentations (consider committing it back
+        to GitHub to share with the world, if it might enjoy wider use!)
+      </p>
     </bl-padded-block>
 
     <!-- content blocks relating to the deploy section -->
     <bl-padded-block id="deploy-intro">
-      intro to deploy
+      <h1>Deployment</h1>
+      <p>
+        BodLanes presentations are designed to be able to be deployed either via the web (to mobile, desktop, or kiosk
+        clients anywhere, via a web browser), to kiosks as static offline HTML, or as desktop applications via NW.js.
+      </p>
+      <p>
+        To begin a deployment, run:
+      </p>
+      <p>
+        <code>
+          npm run build<br>
+          npm run compile presentations/my-presentation
+        </code>
+      </p>
+      <p>
+        Your compiled presentation will be placed in <code>output/presentations/my-presentation</code>.
+      </p>
+    </bl-padded-block>
+
+    <bl-padded-block id="deploy-browser">
+      <h1>Deployment to Browsers</h1>
+      <p>
+        Deploy the folder to a web server and point browsers at the
+        <code>presentations/my-presentation/presentations/my-presentation/index.html</code> file.
+        <code>presentations/my-presentation/index.html</code> will redirect, if you prefer.</p>
+      <p>
+        Browsers can in this case be kiosks or desktops as described elsewhere in this presentation,
+        and this can be a good way to remotely manage content as well as to easily integrate with online
+        services such as Google Analytics.
+      </p>
+    </bl-padded-block>
+
+    <bl-padded-block id="deploy-kiosk">
+      <h1>Deployment to Kiosks</h1>
+      <p>
+        Deploy the folder to the kiosk and point the kiosk browser software at the
+        <code>presentations/my-presentation/presentations/my-presentation/index.html</code> file.
+      </p>
+    </bl-padded-block>
+
+    <bl-padded-block id="deploy-desktop">
+      <h1>Deployment to Desktops</h1>
+      <p>
+        Install NW.js. In the <code>output/presentations/my-presentation</code> folder (or a deployed)
+        copy of it, run:
+      </p>
+      <p>
+        <code>nw .</code>
+      </p>
+      <p>
+        (Alternatively, run e.g. <code>nw output/presentations/my-presentation</code>.)
+      </p>
     </bl-padded-block>
 
     <!-- "blank" content shown as the 'child menu' when on the home page -->
