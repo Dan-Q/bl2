@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Presentation 2</title>
+  <!-- Set the viewport to disable pinch-zooming etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Load core Bodlanes CSS and Javascript -->
+  <link rel="stylesheet" type="text/css" href="../../bodlanes2.css">
+  <script src="../../bodlanes2.js"></script>
+  <!-- Include any custom CSS or extensions: here we're setting the default font to Lato -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/lato.css">
+  <!-- and the FontAwesome icon set -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/fontawesome.css">
+  <!-- and here we're defining our own custom CSS stylesheet for this presentation -->
+  <link rel="stylesheet" type="text/css" href="example2.css">
+</head>
+<body>
+
+  <!-- define the template used for this presentation including the target screen size -->
+  <bl-template width="1920px" height="1080px">
+    <!-- this example template uses a grid with three columns: 120px, 180px, and "the rest" -->
+    <bl-grid columns="120px 180px 1fr">
+      <!-- the template is expected to contain a number of containers, each of which has an id and references the id of the content it's initially showing -->
+      <bl-container id="main-menu-area" showing="main-menu"></bl-container>
+      <bl-container id="sub-menu-area" showing="blank"></bl-container>
+      <bl-container id="main-area" showing="homepage"></bl-container>
+    </bl-grid>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+    <!-- each direct child of bl-content is a content block and should have an id; it can be of any type -->
+
+    <!-- the main menu: note that we're using a column-orientation menu to make it 'tall' rather than 'wide', and using fontawesome icons in place of text -->
+    <bl-menu id="main-menu" direction="column">
+      <!-- in addition to loading the homepage into the main area, we set the sub menu area to blank -->
+      <a href="homepage" target="main-area" action="console.log('x'); navigate('blank', 'sub-menu-area');">
+        <i class="fas fa-home"></i>
+      </a>
+      <!-- in addition to loading the edit-intro into the main area, we show the sub-menu-edit submenu in the sub-menu-area -->
+      <a href="edit-intro" target="main-area" action="console.log('y'); navigate('sub-menu-edit', 'sub-menu-area');">
+        <i class="fas fa-edit"></i>
+      </a>
+      <!-- in addition to loading the desploy-intro into the main area, we show the sub-menu-desploy submenu in the sub-menu-area -->
+      <a href="deploy-intro" target="main-area" action="console.log('z'); navigate('sub-menu-deploy', 'sub-menu-area');">
+        <i class="fas fa-desktop"></i>
+      </a>
+    </bl-menu>
+
+    <!-- the "edit" submenu -->
+    <bl-menu id="sub-menu-edit" direction="column">
+      <a href="edit-intro" target="main-area">Intro</a>
+      <a href="edit-tools" target="main-area">Tools</a>
+    </bl-menu>
+
+    <!-- the "deploy" submenu -->
+    <bl-menu id="sub-menu-deploy" direction="column">
+      <a href="deploy-intro" target="main-area">Intro</a>
+      <a href="deploy-browser" target="main-area">Browser</a>
+      <a href="deploy-kiosk" target="main-area">Kiosk</a>
+      <a href="deploy-desktop" target="main-area">Desktop</a>
+    </bl-menu>
+
+    <!-- content blocks relating to the edit section -->
+    <bl-padded-block id="edit-intro">
+      intro to edit
+    </bl-padded-block>
+
+    <!-- content blocks relating to the deploy section -->
+    <bl-padded-block id="deploy-intro">
+      intro to deploy
+    </bl-padded-block>
+
+    <!-- "blank" content shown as the 'child menu' when on the home page -->
+    <div id="blank"></div>
+
+    <!-- our first content block is the homepage, which is represented by a grid of three rows -->
+    <bl-padded-block id="homepage">
+      <h1>Example Two</h1>
+      <p>
+        ...
+      </p>
+    </bl-padded-block>
+
+  </bl-content>
+
+</body>
+</html>

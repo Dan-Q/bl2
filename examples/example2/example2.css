@@ -1,0 +1,11 @@
+/* Centre the text of the (columnular) menu items vertically in their boxes */
+bl-menu a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Make the main menu text (actually icons) much bigger */
+#main-menu-area {
+  font-size: 48px;
+}

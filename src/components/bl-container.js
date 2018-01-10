@@ -5,8 +5,11 @@ Slim.tag(
     loadContent(id){
       this.attributes.showing.value = id;
       this.innerHTML = '';
-      let node = document.querySelector(`bl-content #${id}`).cloneNode(true);
-      this.appendChild(document.querySelector(`bl-content #${id}`).cloneNode(true));
+      if(!id || (id == '')) return;
+      let originalNode = document.querySelector(`bl-content #${id}`);
+      if(!originalNode) return;
+      let newNode = document.querySelector(`bl-content #${id}`).cloneNode(true);
+      this.appendChild(newNode);
     }
 
     onAdded(){
@@ -14,7 +17,7 @@ Slim.tag(
     }
 
     render(){
-      if(this.attributes.showing) this.loadContent(this.attributes.showing.value);
+      if(this.attributes.showing && (this.attributes.showing.value != '')) this.loadContent(this.attributes.showing.value);
     }
   }
 );
