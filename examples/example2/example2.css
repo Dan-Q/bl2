@@ -9,3 +9,17 @@ bl-menu a {
 #main-menu-area {
   font-size: 48px;
 }
+
+/* Make the submenu, when present, a different colour set to help differentiate it */
+#sub-menu-area bl-menu {
+  background: #002a5c;
+  font-weight: bold;
+}
+#sub-menu-area bl-menu a {
+  color: #ffffff;
+}
+#sub-menu-area bl-menu a.current {
+  color: #000000;
+  background: #ffffff;
+}
+

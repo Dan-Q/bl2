@@ -28,7 +28,7 @@ function loadStatus(){
   });
 }
 function navigate(id, target){
-  console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
+  // console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
   const container = document.querySelector(`bl-template bl-container#${target}`);
   if(!container) return;
   container.loadContent(id);

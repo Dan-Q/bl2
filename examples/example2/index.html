@@ -35,15 +35,15 @@
     <!-- the main menu: note that we're using a column-orientation menu to make it 'tall' rather than 'wide', and using fontawesome icons in place of text -->
     <bl-menu id="main-menu" direction="column">
       <!-- in addition to loading the homepage into the main area, we set the sub menu area to blank -->
-      <a href="homepage" target="main-area" action="console.log('x'); navigate('blank', 'sub-menu-area');">
+      <a href="homepage" target="main-area" action="navigate('blank', 'sub-menu-area');">
         <i class="fas fa-home"></i>
       </a>
-      <!-- in addition to loading the edit-intro into the main area, we show the sub-menu-edit submenu in the sub-menu-area -->
-      <a href="edit-intro" target="main-area" action="console.log('y'); navigate('sub-menu-edit', 'sub-menu-area');">
+      <!-- in addition to loading the "edit" submenu into the submenu area, we show the first page (the intro) of the edit section-->
+      <a href="sub-menu-edit" target="sub-menu-area" action="navigate('edit-intro', 'main-area');">
         <i class="fas fa-edit"></i>
       </a>
-      <!-- in addition to loading the desploy-intro into the main area, we show the sub-menu-desploy submenu in the sub-menu-area -->
-      <a href="deploy-intro" target="main-area" action="console.log('z'); navigate('sub-menu-deploy', 'sub-menu-area');">
+      <!-- in addition to loading the "deploy" submenu into the submenu area, we show the first page (the intro) of the deploy section-->
+      <a href="sub-menu-deploy" target="sub-menu-area" action="navigate('deploy-intro', 'main-area');">
         <i class="fas fa-desktop"></i>
       </a>
     </bl-menu>
@@ -62,9 +62,31 @@
       <a href="deploy-desktop" target="main-area">Desktop</a>
     </bl-menu>
 
+    <!-- our first content block is the homepage, which is represented by a grid of three rows -->
+    <bl-padded-block id="homepage">
+      <h1>Example Two</h1>
+      <p>
+        As well as demonstrating additional techniques such as the use of column (rather than row) menus,
+        fontawesome icons, and the updating of multiple <code>&lt;bl-container&gt;</code>s at once, this
+        presentation contains tips on creating and deploying presentations using BodLanes2.
+      </p>
+      <p>
+        Touch the 'edit' icon on the menu, to the left, to get started.
+      </p>
+      <p>
+        <img src="code.jpg">
+      </p>
+    </bl-padded-block>
+
     <!-- content blocks relating to the edit section -->
     <bl-padded-block id="edit-intro">
-      intro to edit
+      <h1>Editing presentations</h1>
+      <p>
+        Presentations are folders in the <code>presentations</code> folder (or in the case of this one, the
+        <code>examples</code> folder), e.g. <code>presentations/my-presentation</code>. As a minimum, they
+        should contain an <code>index.html</code> file: this is a standard HTML5 file (although you'll
+        probably want to add a few special elements that you might not yet be familiar with).
+      </p>
     </bl-padded-block>
 
     <!-- content blocks relating to the deploy section -->
@@ -74,14 +96,6 @@
 
     <!-- "blank" content shown as the 'child menu' when on the home page -->
     <div id="blank"></div>
-
-    <!-- our first content block is the homepage, which is represented by a grid of three rows -->
-    <bl-padded-block id="homepage">
-      <h1>Example Two</h1>
-      <p>
-        ...
-      </p>
-    </bl-padded-block>
 
   </bl-content>
 
