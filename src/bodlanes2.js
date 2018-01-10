@@ -28,6 +28,7 @@ function loadStatus(){
   });
 }
 function navigate(id, target){
+  console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
   const container = document.querySelector(`bl-template bl-container#${target}`);
   if(!container) return;
   container.loadContent(id);
@@ -38,8 +39,9 @@ function navigate(id, target){
 // Tags links to the _current_ page so that they can be styled differently (e.g. in menus)
 function markLinksToCurrentPage(){
   const currentPages = [...document.querySelectorAll('bl-template .renderable')].map(container=>container.attributes.showing.value);
-  const currentPageIdentities = currentPages.map(id=>{
+  const currentPageIdentities = currentPages.filter(id=>id != '').map(id=>{
     const block = document.querySelector(`bl-content #${id}`);
+    if(!block) return '';
     return(block.attributes.identifyas ? block.attributes.identifyas.value : id);
   });
   const links = [...document.querySelectorAll('a')];
@@ -70,16 +72,22 @@ function documentClickHandler(e){
   const a = e.path.find(el=>el.tagName=='A');
   if(!a) return false;
   e.preventDefault();
-  if((a.tagName == 'A') && a.attributes.href){
-    if(a.attributes.href.value == '#close-overlay'){
-      // close the overlay
-      hideOverlay();
-    } else if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
-      // link to an image: pop up in an overlay
-      showOverlayImage(a.attributes.href.value);
-    } else if(a.attributes.target){
-      // link including a target - probably an internal (content) link
-      navigate(a.attributes.href.value, a.attributes.target.value);
+  if((a.tagName == 'A')){
+    if(a.attributes.action){
+      // if hyperlink specifies an action to perform, run that JS first!
+      eval(a.attributes.action.value);
+    }
+    if(a.attributes.href){
+      if(a.attributes.href.value == '#close-overlay'){
+        // close the overlay
+        hideOverlay();
+      } else if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
+        // link to an image: pop up in an overlay
+        showOverlayImage(a.attributes.href.value);
+      } else if(a.attributes.target){
+        // link including a target - probably an internal (content) link
+        navigate(a.attributes.href.value, a.attributes.target.value);
+      }
     }
   }
 }

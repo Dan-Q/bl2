@@ -103,6 +103,7 @@ bl-menu > * {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
+  flex-grow: 1;
 }
 
 bl-menu a {
