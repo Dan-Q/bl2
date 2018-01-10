@@ -27,7 +27,7 @@ and make your own presentations in the presentations folder (e.g. presentations/
 Build a presentation for deployment with:
 
 ```
-npm build
+npm run build
 npm run compile presentations/my-presentation
 ```
 

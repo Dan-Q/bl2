@@ -9064,6 +9064,7 @@ function loadStatus() {
   });
 }
 function navigate(id, target) {
+  // console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
   var container = document.querySelector('bl-template bl-container#' + target);
   if (!container) return;
   container.loadContent(id);
@@ -9076,8 +9077,11 @@ function markLinksToCurrentPage() {
   var currentPages = [].concat(_toConsumableArray(document.querySelectorAll('bl-template .renderable'))).map(function (container) {
     return container.attributes.showing.value;
   });
-  var currentPageIdentities = currentPages.map(function (id) {
+  var currentPageIdentities = currentPages.filter(function (id) {
+    return id != '';
+  }).map(function (id) {
     var block = document.querySelector('bl-content #' + id);
+    if (!block) return '';
     return block.attributes.identifyas ? block.attributes.identifyas.value : id;
   });
   var links = [].concat(_toConsumableArray(document.querySelectorAll('a')));
@@ -9111,16 +9115,22 @@ function documentClickHandler(e) {
   });
   if (!a) return false;
   e.preventDefault();
-  if (a.tagName == 'A' && a.attributes.href) {
-    if (a.attributes.href.value == '#close-overlay') {
-      // close the overlay
-      hideOverlay();
-    } else if (!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)) {
-      // link to an image: pop up in an overlay
-      showOverlayImage(a.attributes.href.value);
-    } else if (a.attributes.target) {
-      // link including a target - probably an internal (content) link
-      navigate(a.attributes.href.value, a.attributes.target.value);
+  if (a.tagName == 'A') {
+    if (a.attributes.action) {
+      // if hyperlink specifies an action to perform, run that JS first!
+      eval(a.attributes.action.value);
+    }
+    if (a.attributes.href) {
+      if (a.attributes.href.value == '#close-overlay') {
+        // close the overlay
+        hideOverlay();
+      } else if (!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)) {
+        // link to an image: pop up in an overlay
+        showOverlayImage(a.attributes.href.value);
+      } else if (a.attributes.target) {
+        // link including a target - probably an internal (content) link
+        navigate(a.attributes.href.value, a.attributes.target.value);
+      }
     }
   }
 }
@@ -10833,8 +10843,11 @@ Slim.tag('bl-container', '', function (_Slim) {
     value: function loadContent(id) {
       this.attributes.showing.value = id;
       this.innerHTML = '';
-      var node = document.querySelector('bl-content #' + id).cloneNode(true);
-      this.appendChild(document.querySelector('bl-content #' + id).cloneNode(true));
+      if (!id || id == '') return;
+      var originalNode = document.querySelector('bl-content #' + id);
+      if (!originalNode) return;
+      var newNode = document.querySelector('bl-content #' + id).cloneNode(true);
+      this.appendChild(newNode);
     }
   }, {
     key: 'onAdded',
@@ -10844,7 +10857,7 @@ Slim.tag('bl-container', '', function (_Slim) {
   }, {
     key: 'render',
     value: function render() {
-      if (this.attributes.showing) this.loadContent(this.attributes.showing.value);
+      if (this.attributes.showing && this.attributes.showing.value != '') this.loadContent(this.attributes.showing.value);
     }
   }]);
 
@@ -10994,6 +11007,15 @@ Slim.tag('bl-menu', '', function (_Slim) {
   }
 
   _createClass(BlMenu, [{
+    key: 'onAdded',
+    value: function onAdded() {
+      if (this.attributes.direction && this.attributes.direction.value == 'column') {
+        this.style.display = 'flex';
+        this.style.flexDirection = 'column';
+        this.style.justifyContent = 'space-evenly';
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {}
   }]);
