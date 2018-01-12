@@ -7,6 +7,10 @@
   padding: 8px;
 }
 
+.gallery .lonely-coder {
+  grid-column: 6 / 8;
+}
+
 .gallery .big-buck-bunny-link {
   padding: 0;
   grid-column: 1 / 3;
