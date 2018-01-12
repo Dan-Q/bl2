@@ -64,6 +64,14 @@ h6 {
   font-size: 1em;
 }
 
+/* videos default to full size available, black background */
+
+video {
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+
 /* common classes */
 
 .border {

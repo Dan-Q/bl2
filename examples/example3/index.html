@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Presentation 3</title>
+  <!-- Set the viewport to disable pinch-zooming etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Load core Bodlanes CSS and Javascript -->
+  <link rel="stylesheet" type="text/css" href="../../bodlanes2.css">
+  <script src="../../bodlanes2.js"></script>
+  <!-- Include any custom CSS or extensions: here we're setting the default font to Lato -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/lato.css">
+  <!-- and the FontAwesome icon set -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/fontawesome.css">
+  <!-- and add our custom CSS -->
+  <link rel="stylesheet" type="text/css" href="example3.css">
+</head>
+<body>
+
+  <!-- define the template used for this presentation including the target screen size -->
+  <bl-template width="1920px" height="1080px">
+    <!-- this example has only a single container -->
+    <bl-container id="main-area" showing="homepage"></bl-container>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+
+    <!-- our first content block is the homepage, which is represented by a grid of three rows -->
+    <bl-padded-block id="homepage">
+      <h1>Example Three</h1>
+      <p>
+        Here's a gallery with a customized grid layout and a video.
+      </p>
+      <!-- we give this grid class "gallery" and use this in our custom CSS to style it -->
+      <bl-grid class="gallery" columns="216px 216px 216px 216px 216px 216px 216px" gap="48px">
+        <!-- this video link is given a class that's defined in our custom CSS to make it bigger than the rest -->
+        <a href="big-buck-bunny.ogv" class="border big-buck-bunny-link">
+          <i class="fas fa-play-circle"></i>
+        </a>
+        <!-- each image is 192px wide, plus (4px image border plus 8px link padding) on each side makes them 216px wide) -->
+        <a href="app-store.jpg">
+          <img src="app-store-thumb.jpg" class="border">
+          App Store
+        </a>
+        <a href="calendar.jpg" class="zoomable">
+          <img src="calendar-thumb.jpg" class="border">
+          Calendar (Z)
+        </a>
+        <a href="camera-components.jpg">
+          <img src="camera-components-thumb.jpg" class="border">
+          Camera Components
+        </a>
+        <a href="coder.jpg">
+          <img src="coder-thumb.jpg" class="border">
+          Lonely Coder
+        </a>
+        <a href="coders.jpg">
+          <img src="coders-thumb.jpg" class="border">
+          Coders
+        </a>
+        <a href="devices.jpg">
+          <img src="devices-thumb.jpg" class="border">
+          Devices
+        </a>
+        <a href="firefox-mobile.jpg">
+          <img src="firefox-mobile-thumb.jpg" class="border">
+          Firefox Mobile
+        </a>
+        <a href="headphones.jpg">
+          <img src="headphones-thumb.jpg" class="border">
+          Headphones
+        </a>
+        <a href="reminders.jpg">
+          <img src="reminders-thumb.jpg" class="border">
+          Calendar Reminders
+        </a>
+      </bl-grid>
+    </bl-padded-block>
+
+  </bl-content>
+
+</body>
+</html>

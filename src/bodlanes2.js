@@ -61,9 +61,33 @@ function showOverlayImage(url){
   overlay.style.display = 'block';
 }
 
+// Shows an zoomable image overlay
+function showZoomableOverlayImage(url){
+  const overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = `
+    TODO
+  `;
+  overlay.style.display = 'block';
+}
+
+// Shows a video overlay
+function showOverlayVideo(url){
+  const overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = `
+    <video src="${url}" autoplay></video>
+    <bl-floater top="15px" right="15px">
+      <a href="#close-overlay" class="button">&times;</a>
+    </bl-floater>
+  `;
+  const video = overlay.querySelector('video');
+  video.addEventListener('ended', hideOverlay); // hide video when complete
+  overlay.style.display = 'block';
+}
+
 // Hides the overlay
 function hideOverlay(){
   const overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = '';
   overlay.style.display = 'none';
 }
 
@@ -81,9 +105,17 @@ function documentClickHandler(e){
       if(a.attributes.href.value == '#close-overlay'){
         // close the overlay
         hideOverlay();
+      } else if(!!a.attributes.href.value.match(/\.(ogv|avi|flv|wmv|mp4|mov|asf|qt|swf|mpg)$/i)){
+        // link to a video: pop up in an overlay
+        showOverlayVideo(a.attributes.href.value);
       } else if(!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)){
         // link to an image: pop up in an overlay
-        showOverlayImage(a.attributes.href.value);
+        const aClasses = [...a.classList];
+        if(aClasses.indexOf('zoomable') > -1){
+          showZoomableOverlayImage(a.attributes.href.value);
+        } else {
+          showOverlayImage(a.attributes.href.value);
+        }
       } else if(a.attributes.target){
         // link including a target - probably an internal (content) link
         navigate(a.attributes.href.value, a.attributes.target.value);

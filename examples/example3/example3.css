@@ -1,0 +1,20 @@
+.gallery a {
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  color: #000000;
+  background: #e6e6f7;
+  padding: 8px;
+}
+
+.gallery .big-buck-bunny-link {
+  padding: 0;
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+  background-image: url('big-buck-bunny.jpg');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 162px;
+  color: rgba(255,255,255,0.5)
+}
