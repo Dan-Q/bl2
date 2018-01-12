@@ -64,10 +64,18 @@ function showOverlayImage(url){
 // Shows an zoomable image overlay
 function showZoomableOverlayImage(url){
   const overlay = document.querySelector('bl-overlay');
+  overlay.style.display = 'block'; // show first so that .clientWidth etc. work
   overlay.innerHTML = `
-    TODO
+    <canvas style="width: 100%; height: 100%;" width="${overlay.clientWidth}" height="${overlay.clientHeight}"></canvas>
+    <bl-floater top="15px" right="15px">
+      <a href="#close-overlay" class="button">&times;</a>
+    </bl-floater>
   `;
-  overlay.style.display = 'block';
+  const canvas = overlay.querySelector('canvas');
+  new ImgTouchCanvas({
+    canvas: canvas,
+    path: url
+  });
 }
 
 // Shows a video overlay
