@@ -63,19 +63,20 @@ function showOverlayImage(url){
 
 // Shows an zoomable image overlay
 function showZoomableOverlayImage(url){
+  showOverlayImage(url);
   const overlay = document.querySelector('bl-overlay');
-  overlay.style.display = 'block'; // show first so that .clientWidth etc. work
-  overlay.innerHTML = `
-    <canvas style="width: 100%; height: 100%;" width="${overlay.clientWidth}" height="${overlay.clientHeight}"></canvas>
-    <bl-floater top="15px" right="15px">
-      <a href="#close-overlay" class="button">&times;</a>
-    </bl-floater>
-  `;
-  const canvas = overlay.querySelector('canvas');
-  new ImgTouchCanvas({
-    canvas: canvas,
-    path: url
+  const img = overlay.querySelector('img');
+  let viewer = new Viewer(img, {
+    inline: true,
+    button: false,
+    toolbar: false,
+    title: false,
+    navbar: false,
+    tooltip: false,
+    container: 'bl-overlay',
+    minZoomRatio: 1
   });
+  img.style.display = 'none';
 }
 
 // Shows a video overlay
