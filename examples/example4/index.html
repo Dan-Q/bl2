@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Presentation 4</title>
+  <!-- Set the viewport to disable pinch-zooming etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Load core Bodlanes CSS and Javascript -->
+  <link rel="stylesheet" type="text/css" href="../../bodlanes2.css">
+  <script src="../../bodlanes2.js"></script>
+  <!-- Include any custom CSS or extensions: here we're setting the default font to Lato -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/lato.css">
+  <!-- and our own CSS too -->
+  <link rel="stylesheet" type="text/css" href="example4.css">
+</head>
+<body>
+
+  <!-- define the template used for this presentation including the target screen size -->
+  <bl-template width="1280px" height="800px">
+    <!-- this example has only a single container -->
+    <bl-container id="main-area" showing="page1"></bl-container>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+
+    <!-- our first content block "page1"; pressing space moves to page2 -->
+    <bl-padded-block id="page1" class="light">
+      <h1>Example Four</h1>
+      <p>
+        Press the space bar to begin the presentation. Once running, press H at any time
+        to return to this home page.
+      </p>
+
+      <!-- pressing the space bar moves to page 2 -->
+      <bl-trigger on="keypress" key=" " action="navigate('page2', 'main-area')"></bl-trigger>
+    </bl-padded-block>
+
+    <!-- our content block "page2"; advance by waiting or pressing space -->
+    <bl-padded-block id="page2" class="dark">
+      <h2>Page Two</h2>
+      <p>
+        This page will remain for five seconds, then automatically move on to page three. You can
+        also manually move to page three by pressing the space bar. And, of course, anywhere
+        in this presentation you can press H to return to the home page.
+      </p>
+
+      <!-- waiting 5 seconds (5,000 milliseconds) results in moving on to page 3 -->
+      <bl-trigger on="timeout" duration="5000" action="navigate('page3', 'main-area')"></bl-trigger>
+
+      <!-- pressing the space bar moves to page 3 immediately -->
+      <bl-trigger on="keypress" key=" " action="navigate('page3', 'main-area')"></bl-trigger>
+    </bl-padded-block>
+
+    <!-- our content block "page3"; advance by waiting only -->
+    <bl-padded-block id="page3" class="light">
+      <h2>Page Three</h2>
+      <p>
+        This page will remain for three seconds, then automatically move on to page three. There is
+        no way to skip ahead (but of course anywhere in this presentation you can press H to return
+        to the home page).
+      </p>
+
+      <!-- waiting 3 seconds (3,000 milliseconds) results in moving on to page 4 -->
+      <bl-trigger on="timeout" duration="3000" action="navigate('page4', 'main-area')"></bl-trigger>
+    </bl-padded-block>
+
+    <!-- our content block "page4" -->
+    <bl-padded-block id="page4" class="dark">
+      <h2>Page Four</h2>
+      <p>
+        There are no triggers on this page. You can go back home by pressing H, but if you wait long
+        enough you'll find your way there anyway because there's an "inactivity" trigger that sends
+        you back to the home page if you don't touch anything for 30 seconds. Give it a go!
+      </p>
+    </bl-padded-block>
+  </bl-content>
+
+  <!-- global triggers: things that can occur at any point during this presentation -->
+  <bl-global-triggers>
+    <!-- pressing the "H" key at any point returns you to the first page -->
+    <bl-trigger on="keypress" key="h" action="navigate('page1', 'main-area')"></bl-trigger>
+
+    <!-- touching nothing for 30 seconds (plus up to 10%; i.e. 3 seconds) returns to the home page -->
+    <bl-trigger on="inactivity" duration="30000" action="navigate('page1', 'main-area')"></bl-trigger>
+  </bl-global-triggers>
+
+</body>
+</html>

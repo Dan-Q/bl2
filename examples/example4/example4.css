@@ -1,0 +1,12 @@
+.light, .dark {
+  height: 100%;
+}
+
+.light {
+  background: url(bg-light.jpg);
+}
+
+.dark {
+  background: url(bg-dark.jpg);
+  color: white;
+}

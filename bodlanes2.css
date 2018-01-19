@@ -13,7 +13,8 @@ body {
   color: #333333;
 }
 
-body > * {
+body > *,
+bl-global-triggers, bl-trigger {
   display: none;
 }
 
