@@ -1,7 +1,10 @@
 # BodLanes 2
 
-Static web-powered digital signage/interactive kiosk creation framework. Experimental technology;
-use in production at your own risk.
+Static web-powered digital signage/interactive kiosk creation framework. Designed to make offline web
+content suitable for display through Android WebView on Kiosk Browser Pro, but also suitable for
+deployment via NW.js, Chrome Kiosk Mode, and others.
+
+Experimental; use in production at your own risk.
 
 ### Prerequisites
 
@@ -21,7 +24,7 @@ Start a local server:
 npm start
 ```
 
-Visit http://localhost:8080/examples/example1 for some starting hints. View the source of these examples
+Visit http://localhost:8080/examples/ for some starting hints. View the source of these examples
 and make your own presentations in the presentations folder (e.g. presentations/my-presentation/index.html).
 
 Build a presentation for deployment with:

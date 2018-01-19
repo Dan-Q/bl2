@@ -9039,6 +9039,15 @@ function requireAll(r) {
 }
 requireAll(__webpack_require__(334));
 
+// Storage for triggers
+var triggers = {
+  global: [],
+  local: []
+};
+
+// Storage for last activity
+var lastActivity = new Date();
+
 // Set up the page
 function initialize() {
   // Add <bl-overlay />
@@ -9064,12 +9073,16 @@ function loadStatus() {
   });
 }
 function navigate(id, target) {
+  // This counts as "activity"
+  lastActivity = new Date();
+  // Perform the navigation
   // console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
   var container = document.querySelector('bl-template bl-container#' + target);
   if (!container) return;
   container.loadContent(id);
   saveStatus();
   markLinksToCurrentPage();
+  setUpLocalEventHandlers();
 }
 
 // Tags links to the _current_ page so that they can be styled differently (e.g. in menus)
@@ -9136,8 +9149,66 @@ function hideOverlay() {
   overlay.style.display = 'none';
 }
 
+// Set up a timed trigger - pass it a trigger; it returns the ID used to clearTimeout
+function configureTimeoutTrigger(triggerData) {
+  return setTimeout(function () {
+    eval(triggerData.action.value);
+  }, triggerData.duration.value);
+}
+
+function configureInactivityTrigger(triggerData) {
+  return setInterval(function () {
+    //console.log(new Date() - lastActivity);
+    if (new Date() - lastActivity >= triggerData.duration.value) {
+      lastActivity = new Date();
+      eval(triggerData.action.value);
+    }
+  }, triggerData.duration.value / 10);
+}
+
+// Global event handling - ONLY RUN THIS ONCE
+function setUpGlobalEventHandlers() {
+  // create new global triggers
+  document.querySelectorAll('bl-global-triggers bl-trigger').forEach(function (trigger) {
+    var triggerData = trigger.attributes;
+    if (triggerData.on && triggerData.on.value == 'timeout') triggerData.timerID = configureTimeoutTrigger(triggerData);
+    if (triggerData.on && triggerData.on.value == 'inactivity') triggerData.intervalID = configureInactivityTrigger(triggerData);
+    triggers.global.push(trigger.attributes);
+  });
+}
+
+// Local (i.e. specified within blocks) event handling
+function setUpLocalEventHandlers() {
+  // clear all local triggers first, including stopping any timeouts
+  triggers.local.filter(function (trigger) {
+    return !!trigger.timerID;
+  }).map(function (trigger) {
+    return clearTimeout(trigger.timerID);
+  });
+  triggers.local.filter(function (trigger) {
+    return !!trigger.intervalID;
+  }).map(function (trigger) {
+    return clearInterval(trigger.intervalID);
+  });
+  triggers.local = [];
+
+  // create new local triggers
+  document.querySelectorAll('bl-template bl-trigger').forEach(function (trigger) {
+    var triggerData = trigger.attributes;
+    if (triggerData.on && triggerData.on.value == 'timeout') triggerData.timerID = configureTimeoutTrigger(triggerData);
+    if (triggerData.on && triggerData.on.value == 'inactivity') triggerData.intervalID = configureInactivityTrigger(triggerData);
+    triggers.local.push(triggerData);
+  });
+
+  // DEBUG: show triggers
+  //console.log('Triggers:'); console.log(triggers);
+}
+
 // Link handling
 function documentClickHandler(e) {
+  // This counts as "activity"
+  lastActivity = new Date();
+  // Handle the click/touch
   var a = e.path.find(function (el) {
     return el.tagName == 'A';
   });
@@ -9173,6 +9244,32 @@ function documentClickHandler(e) {
 document.addEventListener('touchend', documentClickHandler);
 document.addEventListener('click', documentClickHandler);
 
+// Keypress handling
+function documentKeypressHandler(e) {
+  // This counts as "activity"
+  lastActivity = new Date();
+  // Hunt for any triggers that match the key pressed 
+  var key = e.key.toLowerCase();
+  var keyCode = e.code;
+  var viableLocalTriggers = triggers.local.filter(function (trigger) {
+    return trigger.on.value == 'keypress' && (trigger.key.value == key || trigger.key.value == keyCode);
+  });
+  var viableGlobalTriggers = triggers.global.filter(function (trigger) {
+    return trigger.on.value == 'keypress' && (trigger.key.value == key || trigger.key.value == keyCode);
+  });
+  var viableTriggers = viableLocalTriggers.concat(viableGlobalTriggers);
+  // Loop through all of the viable triggers, stopping only when we get to the end OR we've been asked to stop propogating
+  var trigger = void 0;
+  var propogationStopped = false;
+  console.log('[Bodlanes2] ' + (viableTriggers.length == 0 ? 'Unhandled ' : '') + 'Keypress: ' + keyCode + ' (\'' + key + '\')');
+  while (!propogationStopped && (trigger = viableTriggers.shift())) {
+    if (trigger.action) eval(trigger.action.value);
+    // Prevent event propogation (e.g. up to the global handler) if requested
+    if (trigger.propogate && trigger.propogate.value == 'false') propogationStopped = true;
+  }
+}
+document.addEventListener('keypress', documentKeypressHandler);
+
 // Mark page as loaded
 window.addEventListener('load', function (e) {
   initialize();
@@ -9183,6 +9280,8 @@ window.addEventListener('load', function (e) {
   });
   saveStatus();
   markLinksToCurrentPage();
+  setUpGlobalEventHandlers();
+  setUpLocalEventHandlers();
 });
 
 /***/ }),
@@ -10829,10 +10928,12 @@ var map = {
 	"./bl-container.js": 335,
 	"./bl-content.js": 336,
 	"./bl-floater.js": 337,
-	"./bl-grid.js": 338,
-	"./bl-menu.js": 339,
-	"./bl-padded-block.js": 340,
-	"./bl-template.js": 341
+	"./bl-global-triggers.js": 338,
+	"./bl-grid.js": 339,
+	"./bl-menu.js": 340,
+	"./bl-padded-block.js": 341,
+	"./bl-template.js": 342,
+	"./bl-trigger.js": 343
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -10991,6 +11092,38 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+Slim.tag('bl-global-triggers', '', function (_Slim) {
+  _inherits(BlGlobalTriggers, _Slim);
+
+  function BlGlobalTriggers() {
+    _classCallCheck(this, BlGlobalTriggers);
+
+    return _possibleConstructorReturn(this, (BlGlobalTriggers.__proto__ || Object.getPrototypeOf(BlGlobalTriggers)).apply(this, arguments));
+  }
+
+  _createClass(BlGlobalTriggers, [{
+    key: 'render',
+    value: function render() {}
+  }]);
+
+  return BlGlobalTriggers;
+}(Slim));
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 Slim.tag('bl-grid', '', function (_Slim) {
   _inherits(BlGrid, _Slim);
 
@@ -11019,7 +11152,7 @@ Slim.tag('bl-grid', '', function (_Slim) {
 }(Slim));
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11060,7 +11193,7 @@ Slim.tag('bl-menu', '', function (_Slim) {
 }(Slim));
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11092,7 +11225,7 @@ Slim.tag('bl-padded-block', '', function (_Slim) {
 }(Slim));
 
 /***/ }),
-/* 341 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11127,6 +11260,38 @@ Slim.tag('bl-template', '', function (_Slim) {
   }]);
 
   return BlTemplate;
+}(Slim));
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Slim.tag('bl-trigger', '', function (_Slim) {
+  _inherits(BlTrigger, _Slim);
+
+  function BlTrigger() {
+    _classCallCheck(this, BlTrigger);
+
+    return _possibleConstructorReturn(this, (BlTrigger.__proto__ || Object.getPrototypeOf(BlTrigger)).apply(this, arguments));
+  }
+
+  _createClass(BlTrigger, [{
+    key: 'render',
+    value: function render() {}
+  }]);
+
+  return BlTrigger;
 }(Slim));
 
 /***/ })
