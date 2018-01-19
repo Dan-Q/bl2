@@ -4,6 +4,7 @@
   "description": "Simplified experimental HTML5 digital signage/exhibition kiosk content framework.",
   "dependencies": {
     "nodemon": "^1.14.11",
+    "only-if-changed-webpack-plugin": "0.0.1",
     "slim-js": "^3.2.1"
   },
   "devDependencies": {
@@ -31,7 +32,12 @@
     "url": "https://github.com/Dan-Q/bl2.git"
   },
   "nodemonConfig": {
-    "watch": ["examples", "extensions", "presentations", "src"],
+    "watch": [
+      "examples",
+      "extensions",
+      "presentations",
+      "src"
+    ],
     "ext": "js,mjs,coffee,litcoffee,json,html",
     "ignore": []
   }

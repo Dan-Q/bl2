@@ -9102,9 +9102,37 @@ function showOverlayImage(url) {
   overlay.style.display = 'block';
 }
 
+// Shows an zoomable image overlay
+function showZoomableOverlayImage(url) {
+  showOverlayImage(url);
+  var overlay = document.querySelector('bl-overlay');
+  var img = overlay.querySelector('img');
+  var viewer = new Viewer(img, {
+    inline: true,
+    button: false,
+    toolbar: false,
+    title: false,
+    navbar: false,
+    tooltip: false,
+    container: 'bl-overlay',
+    minZoomRatio: 1
+  });
+  img.style.display = 'none';
+}
+
+// Shows a video overlay
+function showOverlayVideo(url) {
+  var overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = '\n    <video src="' + url + '" autoplay></video>\n    <bl-floater top="15px" right="15px">\n      <a href="#close-overlay" class="button">&times;</a>\n    </bl-floater>\n  ';
+  var video = overlay.querySelector('video');
+  video.addEventListener('ended', hideOverlay); // hide video when complete
+  overlay.style.display = 'block';
+}
+
 // Hides the overlay
 function hideOverlay() {
   var overlay = document.querySelector('bl-overlay');
+  overlay.innerHTML = '';
   overlay.style.display = 'none';
 }
 
@@ -9124,9 +9152,17 @@ function documentClickHandler(e) {
       if (a.attributes.href.value == '#close-overlay') {
         // close the overlay
         hideOverlay();
+      } else if (!!a.attributes.href.value.match(/\.(ogv|avi|flv|wmv|mp4|mov|asf|qt|swf|mpg)$/i)) {
+        // link to a video: pop up in an overlay
+        showOverlayVideo(a.attributes.href.value);
       } else if (!!a.attributes.href.value.match(/\.(gif|png|jpe?g|webp)$/i)) {
         // link to an image: pop up in an overlay
-        showOverlayImage(a.attributes.href.value);
+        var aClasses = [].concat(_toConsumableArray(a.classList));
+        if (aClasses.indexOf('zoomable') > -1) {
+          showZoomableOverlayImage(a.attributes.href.value);
+        } else {
+          showOverlayImage(a.attributes.href.value);
+        }
       } else if (a.attributes.target) {
         // link including a target - probably an internal (content) link
         navigate(a.attributes.href.value, a.attributes.target.value);

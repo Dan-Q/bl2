@@ -60,3 +60,6 @@ typings/
 # Output and local directories
 output
 presentations/*
+
+# temporary files
+tmp/*
