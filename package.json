@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "description": "Simplified experimental HTML5 digital signage/exhibition kiosk content framework.",
   "dependencies": {
-    "nodemon": "^1.14.11",
-    "only-if-changed-webpack-plugin": "0.0.1",
     "slim-js": "^3.2.1"
   },
   "devDependencies": {
@@ -12,8 +10,12 @@
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.23.5",
+    "browser-sync-webpack-plugin": "^1.2.0",
     "cpr": "^3.0.1",
     "mkdirp": "^0.5.1",
+    "nodemon": "^1.14.11",
+    "only-if-changed-webpack-plugin": "0.0.1",
     "rmfr": "^1.0.7",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
