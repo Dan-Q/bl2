@@ -46,7 +46,9 @@ module.exports = {
       host: '0.0.0.0',
       port: 8080,
       proxy: 'http://localhost:8079/',
-      files: ["examples/**/*", "presentations/**/*"]
+      files: ["examples/**/*", "presentations/**/*"],
+      serveStatic: ["examples", "presentations"],
+      browser: "chrome"
     })
   ]
 };
