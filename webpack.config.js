@@ -49,8 +49,7 @@ module.exports = {
       files: ["bodlanes2.css", "examples/**/*", "presentations/**/*"],
       watchEvents: ["add", "change"],
       serveStatic: ["examples", "presentations"],
-      browser: "chrome",
-      notify: false
+      browser: "chrome"
     })
   ]
 };
