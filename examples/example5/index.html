@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Presentation 5</title>
+  <!-- Set the viewport to disable pinch-zooming etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Load core Bodlanes CSS and Javascript -->
+  <link rel="stylesheet" type="text/css" href="../../bodlanes2.css">
+  <script src="../../bodlanes2.js"></script>
+  <!-- Include any custom CSS or extensions: here we're setting the default font to Lato -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/lato.css">
+  <!-- and loading momoent.js, which is required by <bl-time> and <bl-date> elements -->
+  <script src="../../extensions/moment.js"></script>
+  <!-- and our own CSS too -->
+  <link rel="stylesheet" type="text/css" href="example5.css">
+</head>
+<body>
+
+  <!-- define the template used for this presentation including the target screen size -->
+  <bl-template width="1920px" height="1080px">
+    <!-- this example has only a single container -->
+    <bl-container id="main-area" showing="tearoom"></bl-container>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+
+    <!-- our first content block "tearoom" is a grid of three rows -->
+    <bl-grid id="tearoom" class="simple-screen" rows="120px 1fr 120px">
+      <!-- we call the first row "header" and split it into three proportionally-sized columns -->
+      <bl-grid class="header" columns="3fr 5fr 3fr">
+        <!-- the first header column shows the date, refreshing every 5 mins -->
+        <bl-time class="date" format="D MMMM YYYY" refresh="300000"></bl-time>
+        <!-- the second header column contains the title -->
+        <div class="title">Bodleian Cafe</div>
+        <!-- the third header column contains the time, refreshing every 15 seconds -->
+        <bl-time class="time" format="HH:mm" refresh="15000"></bl-time>
+      </bl-grid>
+      <!-- the main body of the block is split into two equal-sized columns and given classes left-column and right-column -->
+      <bl-grid class="body" columns="1fr 1fr" gap="64px">
+        <div class="left-column">
+          <img src="cafe.jpg" />
+        </div>
+        <div class="right-column">
+          <h2>Headley Tearoom</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+      </bl-grid>
+      <!-- the footer for the content block -->
+      <div class="footer">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+      <!-- "Z" and "X" moves through the slides -->
+      <bl-trigger on="keypress" key="z" action="navigate('page3', 'main-area')"></bl-trigger>
+      <bl-trigger on="keypress" key="x" action="navigate('page2', 'main-area')"></bl-trigger>
+      <!-- moves to next slide after 30 seconds -->
+      <bl-trigger on="timeout" duration="30000" action="navigate('page2', 'main-area')"></bl-trigger>
+    </bl-grid>
+
+    <!-- page 2 -->
+    <bl-grid id="page2" class="simple-screen" rows="120px 1fr 120px">
+      <!-- we call the first row "header" and split it into three proportionally-sized columns -->
+      <bl-grid class="header" columns="3fr 5fr 3fr">
+        <!-- the first header column shows the date, refreshing every 5 mins -->
+        <bl-time class="date" format="D MMMM YYYY" refresh="300000"></bl-time>
+        <!-- the second header column contains the title -->
+        <div class="title">Page 2</div>
+        <!-- the third header column contains the time, refreshing every 15 seconds -->
+        <bl-time class="time" format="HH:mm" refresh="15000"></bl-time>
+      </bl-grid>
+      <!-- this time the slide has only a single column (we're using the CSS class "only-column" to theme it) -->
+      <bl-grid class="body" columns="1fr" gap="64px">
+        <div class="only-column">
+          <h2>Page 2</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+      </bl-grid>
+      <!-- the footer for the content block -->
+      <div class="footer">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+      <!-- "Z" and "X" moves through the slides -->
+      <bl-trigger on="keypress" key="z" action="navigate('tearoom', 'main-area')"></bl-trigger>
+      <bl-trigger on="keypress" key="x" action="navigate('page3', 'main-area')"></bl-trigger>
+      <!-- moves to next slide after 30 seconds -->
+      <bl-trigger on="timeout" duration="30000" action="navigate('page3', 'main-area')"></bl-trigger>
+    </bl-grid>
+
+    <!-- page 3 -->
+    <bl-grid id="page3" class="simple-screen" rows="120px 1fr 120px">
+      <!-- we call the first row "header" and split it into three proportionally-sized columns -->
+      <bl-grid class="header" columns="3fr 5fr 3fr">
+        <!-- the first header column shows the date, refreshing every 5 mins -->
+        <bl-time class="date" format="D MMMM YYYY" refresh="300000"></bl-time>
+        <!-- the second header column contains the title -->
+        <div class="title">Page 3</div>
+        <!-- the third header column contains the time, refreshing every 15 seconds -->
+        <bl-time class="time" format="HH:mm" refresh="15000"></bl-time>
+      </bl-grid>
+      <!-- the main body of the block is split into two equal-sized columns and given classes left-column and right-column -->
+      <bl-grid class="body" columns="1fr 1fr" gap="64px">
+        <div class="left-column">
+          <h2>Page 3</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+        <div class="right-column">
+          <img src="library.jpg" />
+        </div>
+      </bl-grid>
+      <!-- the footer for the content block -->
+      <div class="footer">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+      <!-- "Z" and "X" moves through the slides -->
+      <bl-trigger on="keypress" key="z" action="navigate('page2', 'main-area')"></bl-trigger>
+      <bl-trigger on="keypress" key="x" action="navigate('tearoom', 'main-area')"></bl-trigger>
+      <!-- moves to next slide after 30 seconds -->
+      <bl-trigger on="timeout" duration="30000" action="navigate('tearoom', 'main-area')"></bl-trigger>
+    </bl-grid>
+
+  </bl-content>
+
+</body>
+</html>

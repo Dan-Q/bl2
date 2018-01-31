@@ -10933,7 +10933,8 @@ var map = {
 	"./bl-menu.js": 340,
 	"./bl-padded-block.js": 341,
 	"./bl-template.js": 342,
-	"./bl-trigger.js": 343
+	"./bl-time.js": 343,
+	"./bl-trigger.js": 344
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -11264,6 +11265,50 @@ Slim.tag('bl-template', '', function (_Slim) {
 
 /***/ }),
 /* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Slim.tag('bl-time', '<div>ay ay ay</div>', function (_Slim) {
+  _inherits(BlTime, _Slim);
+
+  function BlTime() {
+    _classCallCheck(this, BlTime);
+
+    return _possibleConstructorReturn(this, (BlTime.__proto__ || Object.getPrototypeOf(BlTime)).apply(this, arguments));
+  }
+
+  _createClass(BlTime, [{
+    key: 'onAdded',
+    value: function onAdded() {
+      this.dataset.format = this.attributes.format && this.attributes.format.value || 'HH:mm';
+      this.dataset.refresh = this.attributes.refresh && this.attributes.refresh.value || '1000';
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      setInterval(function () {
+        _this2.innerText = moment().format(_this2.dataset.format);
+      }, parseInt(this.dataset.refresh));
+    }
+  }]);
+
+  return BlTime;
+}(Slim));
+
+/***/ }),
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
