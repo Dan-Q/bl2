@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Presentation 6</title>
+  <!-- Set the viewport to disable pinch-zooming etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Load core Bodlanes CSS and Javascript -->
+  <link rel="stylesheet" type="text/css" href="../../bodlanes2.css">
+  <script src="../../bodlanes2.js"></script>
+  <!-- Include any custom CSS or extensions: here we're setting the default font to Lato -->
+  <link rel="stylesheet" type="text/css" href="../../extensions/fonts/lato.css">
+  <!-- and loading momoent.js, which is required by <bl-time> and <bl-date> elements -->
+  <script src="../../extensions/moment.js"></script>
+  <!-- and our own CSS too -->
+  <link rel="stylesheet" type="text/css" href="example6.css">
+</head>
+<body>
+
+  <!-- define the template used for this presentation including the target screen size -->
+  <bl-template width="1080px" height="1920px">
+    <!-- this example has only a single container -->
+    <bl-container id="main-area" showing="notices"></bl-container>
+  </bl-template>
+
+  <!-- content blocks used for this presentation -->
+  <bl-content>
+
+    <!-- our first content block "notices" is a grid of three rows -->
+    <bl-grid id="notices" rows="120px 1fr" class="library-screen">
+      <!-- we call the first row "header" and split it into two proportionally-sized columns -->
+      <bl-grid class="header" columns="3fr 6fr">
+        <!-- the first header column shows the date, refreshing every 5 mins -->
+        <bl-time class="date" format="D MMM YYYY" refresh="300000"></bl-time>
+        <!-- the second header column contains the title -->
+        <div class="title">Reader Notices</div>
+      </bl-grid>
+      <!-- the body of the content block -->
+      <bl-padded-block>
+        <!-- contains an RSS feed, mutated by an XSLT to the format we desire and checked once per hour (the default) -->
+        <bl-xml-feed xml="https://www.bodleian.ox.ac.uk/bodley/notices/rss-plus-thumbnails.xml" xslt="samsung-rss-to-example6-html.xslt">
+          <!-- default/"no items" content -->
+          <p>
+            No reader notices.
+          </p>
+        </bl-xml-feed>
+      </bl-padded-block>
+      <!-- the footer for the content block -->
+      <div class="footer">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+
+      <!-- moves to next slide after 30 seconds -->
+      <bl-trigger on="timeout" duration="30000" action="navigate('notices', 'main-area')"></bl-trigger>
+    </bl-grid>
+
+  </bl-content>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+.library-screen {
+  background: #2a1c10;
+  color: #93887E;
+}
+
+bl-date, bl-time, .footer {
+  background: #19140F;
+  color: #4D4F4D;
+}
+
+.date {
+  padding-left: 24px;
+}
+
+.header {
+  font-size: 52px;
+  line-height: 110px;
+}
+
+.time {
+  text-align: right;
+  padding-right: 24px;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.body {
+  padding-top: 64px;
+}
+
+.left-column {
+  padding-left: 128px;
+  text-align: right;
+}
+
+.right-column {
+  padding-right: 128px;
+  text-align: left;
+}
+
+.only-column {
+  padding: 0 128px;
+}
+
+.footer {
+  padding: 12px 24px;
+}
+
+h2 {
+  color: #FBFCFA;
+  font-size: 54px;
+}
+
+.samsung-rss-feed-item-img_samsung {
+  float: right;
+  margin: 0 0 32px 32px;
+}
+
+.samsung-rss-feed-item-description_samsung {
+  white-space: pre-wrap;
+}
