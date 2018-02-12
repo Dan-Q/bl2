@@ -37,10 +37,10 @@ function loadStatus(){
   });
 }
 function navigate(id, target){
+  console.log(`bl2#navigate: #${id} > ${target}`);
   // This counts as "activity"
   lastActivity = new Date();
   // Perform the navigation
-  // console.log(`BodLanes2 - Navigate: #${id} > ${target}`);
   const container = document.querySelector(`bl-template bl-container#${target}`);
   if(!container) return;
   container.loadContent(id);
@@ -220,10 +220,11 @@ document.addEventListener('keypress', documentKeypressHandler);
 
 // Mark page as loaded
 window.addEventListener('load', (e)=>{
+  console.log(`${new Date()}: bl2#load`);
   initialize();
   loadStatus();
   document.body.classList.add('loaded');
-  document.querySelectorAll('bl-template .renderable').forEach((e)=>e.render());
+  document.querySelectorAll('bl-template .renderable').forEach((e)=>e.runRender());
   saveStatus();
   markLinksToCurrentPage();
   setUpGlobalEventHandlers();

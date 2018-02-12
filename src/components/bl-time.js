@@ -3,17 +3,23 @@ Slim.tag(
   ``,
   class BlTime extends Slim {
     onAdded(){
-      this.dataset.format = (this.attributes.format && this.attributes.format.value) || 'HH:mm';
-      this.dataset.refresh = (this.attributes.refresh && this.attributes.refresh.value) || '1000';
-
-      const blTimeTick = ()=>{
-        this.innerText = moment().format(this.dataset.format);
-      };
-      setInterval(blTimeTick, parseInt(this.dataset.refresh));
-      blTimeTick();
     }
 
     render(){
     }
   }
 );
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('bl-time').forEach((el)=>{
+    el.dataset.format = (el.attributes.format && el.attributes.format.value) || 'HH:mm';
+    el.dataset.refresh = (el.attributes.refresh && el.attributes.refresh.value) || '1000';
+
+    const blTimeTick = ()=>{
+      console.log(`${new Date()}: blTimeTick`);
+      el.innerText = moment().format(el.dataset.format);
+    };
+    setInterval(blTimeTick, parseInt(el.dataset.refresh));
+    blTimeTick();    
+  });
+});

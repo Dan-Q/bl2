@@ -9,7 +9,7 @@
   </xsl:template>
 
   <xsl:template match="item">
-    <xsl:if test="(1 = 1) or (expiresat_samsung = '') or (number(expiresat_samsung) &gt; number(//rss/channel/currentDatetime))">
+    <xsl:if test="(expiresat_samsung = '') or (number(expiresat_samsung) &gt; number(//rss/channel/currentDatetime))">
       <div class="samsung-rss-feed-item" data-guid="{guid}">
         <h2 class="samsung-rss-feed-item-title"><xsl:value-of select="title" /></h2>
         <p class="samsung-rss-feed-item-description_samsung">

@@ -3,37 +3,48 @@ Slim.tag(
   ``,
   class BlXmlFeed extends Slim {
     onAdded(){
-      console.log(`${new Date()}: xml feed triggered`);
-      if(this.dataset.alreadyAdded) return;
-      this.dataset.noResults = this.innerHTML;
-      this.dataset.xml = this.attributes.xml.value;
-      this.dataset.refresh = (this.attributes.refresh && this.attributes.refresh.value) || '3600000'; // default = 1 hour
-      console.log(`${new Date()}: xml feed added`);
-      this.dataset.refreshIntervalTimer = null;
-      this.dataset.xslt = ''; // initially blank
-      fetch(this.attributes.xslt.value).then(r=>{r.text().then(xslt=>{
-        this.dataset.xslt = xslt;
-        const blXmlFeedUpdate = ()=>{
-          fetch(this.dataset.xml).then(r=>{r.text().then(rss=>{
-            console.log(`${new Date()}: blXmlFeedUpdate`);
-            const xsltProcessor = new XSLTProcessor();
-            const parser = new DOMParser();
-            const xsltStylesheet = parser.parseFromString(this.dataset.xslt, 'text/xml')
-            const rssFeed = parser.parseFromString(rss, "text/xml");
-            xsltProcessor.importStylesheet(xsltStylesheet);
-            const fragment = xsltProcessor.transformToFragment(rssFeed, document);
-            while (this.firstChild) this.removeChild(this.firstChild);
-            console.log(fragment);
-            this.appendChild(fragment);
-          });});
-        };
-        //setInterval(blXmlFeedUpdate, parseInt(this.dataset.refresh));
-        blXmlFeedUpdate();
-        this.dataset.alreadyAdded = true;
-      })});
     }
 
     render(){
     }
   }
 );
+
+let blXmlFeedCounter = 0;
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('bl-xml-feed').forEach(component=>{
+    console.log(`${new Date()}: xml feed triggered`);
+    const el = document.createElement('div');
+    const id = `bl-xml-feed-${blXmlFeedCounter++}`;
+    el.id = id;
+    el.classList.add('bl-xml-feed');
+    el.dataset.noResults = component.innerHTML;
+    el.dataset.xml = component.attributes.xml.value;
+    el.dataset.xslt = component.attributes.xslt.value;
+    el.dataset.refresh = (component.attributes.refresh && component.attributes.refresh.value) || '3600000'; // default = 1 hour
+    el.dataset.refreshIntervalTimer = null;
+    component.replaceWith(el);
+    console.log(`${new Date()}: xml feed added`);
+    fetch(el.dataset.xslt).then(r=>r.text()).then(xslt=>{
+      el.dataset.xslt = xslt;
+      el.blXmlFeedUpdate = ()=>{
+        fetch(el.dataset.xml).then(r=>r.text()).then(rss=>{
+          const el = document.querySelector(`#${id}`);
+          console.log(`${new Date()}: xml feed inner`);
+          const xsltProcessor = new XSLTProcessor();
+          const parser = new DOMParser();
+          const xsltStylesheet = parser.parseFromString(el.dataset.xslt, 'text/xml')
+          const rssFeed = parser.parseFromString(rss, "text/xml");
+          xsltProcessor.importStylesheet(xsltStylesheet);
+          const fragment = xsltProcessor.transformToFragment(rssFeed, document);
+          while (el.firstChild) el.removeChild(el.firstChild);
+          el.appendChild(fragment);
+          if(el.innerText == '') el.innerHTML = el.dataset.noResults;
+        });
+      };
+      setInterval(el.blXmlFeedUpdate, parseInt(el.dataset.refresh));
+      el.blXmlFeedUpdate();
+    });
+  });
+});

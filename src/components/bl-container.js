@@ -3,6 +3,7 @@ Slim.tag(
   ``,
   class BlContainer extends Slim {
     loadContent(id){
+      console.log(`${new Date()}: bl-container#loadContent`);
       this.attributes.showing.value = id;
       this.innerHTML = '';
       if(!id || (id == '')) return;
@@ -12,12 +13,17 @@ Slim.tag(
       this.appendChild(newNode);
     }
 
+    runRender(){
+      console.log(`${new Date()}: bl-container#runRender`);
+      if(this.attributes.showing && (this.attributes.showing.value != '')) this.loadContent(this.attributes.showing.value);
+    }
+
     onAdded(){
       this.classList.add('renderable');
     }
 
     render(){
-      if(this.attributes.showing && (this.attributes.showing.value != '')) this.loadContent(this.attributes.showing.value);
     }
   }
 );
+
